@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Zorbit Ledger</title>
+<style>
+  /* No external fonts/network requests — this window loads before the app's
+     CSP/network policy is even relevant, and should render instantly with
+     zero dependency on anything outside this one file. */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #0B0B0D;
+    overflow: hidden;
+    -webkit-app-region: drag; /* lets the user drag this frameless window */
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  }
+
+  .stage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #E8571A 0%, #F5A623 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 26px;
+    color: #0B0B0D;
+    letter-spacing: -1px;
+    opacity: 0;
+    animation: markIn 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               glow 2000ms ease-in-out 700ms infinite;
+  }
+
+  .wordmark {
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+  }
+
+  .wordmark .zorbit {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #F7F5F2;
+    text-transform: uppercase;
+  }
+
+  .wordmark .ledger {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #E8571A;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .progress-track {
+    width: 140px;
+    height: 2px;
+    background: rgba(250, 247, 244, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 500ms ease 350ms forwards;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #E8571A, #F5A623);
+    border-radius: 2px;
+    animation: sweep 1300ms ease-in-out infinite;
+  }
+
+  @keyframes markIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 0 rgba(232, 87, 26, 0); }
+    50%      { box-shadow: 0 0 28px rgba(232, 87, 26, 0.55); }
+  }
+
+  @keyframes sweep {
+    0%   { transform: translateX(-140%); }
+    100% { transform: translateX(350%); }
+  }
+
+  /* Respect the OS-level reduce-motion preference: freeze on the settled
+     state instead of animating. */
+  @media (prefers-reduced-motion: reduce) {
+    .mark, .wordmark, .progress-track { animation: none !important; opacity: 1 !important; }
+    .progress-fill { animation: none !important; width: 60%; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="mark">Z</div>
+    <div class="wordmark">
+      <div class="zorbit">Zorbit</div>
+      <div class="ledger">Ledger</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+  </div>
+</body>
+</html>
